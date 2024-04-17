@@ -36,7 +36,7 @@ public class Replica {
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 System.out.println(" [x] Received '" + message + "'");
-                String filePath = "C:/Users/PAVILION/Desktop/TP3-RabbitMq/" + argv[0] + "/fichier.txt";
+                String filePath =  argv[0] + "/fichier.txt";
                 if ("ReadLast".equals(message)) {
                     String lastLine = getLastLineOfFile(filePath);
                     if (lastLine != null) {
@@ -65,7 +65,7 @@ public class Replica {
     public static void insertLineIntoFile(String filePath, String lineToInsert , String argv[]) {
         try {
             File inputFile = new File(filePath);
-            String temppath = "tempFile"+argv[0]+".txt";
+            String temppath = argv[0]+"tempFile.txt";
             File tempFile = new File(temppath);
 
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
