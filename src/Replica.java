@@ -44,7 +44,17 @@ public class Replica {
                         channel.basicPublish("", routingKey, null, lastLine.getBytes(StandardCharsets.UTF_8));
                         System.out.println("Sent response message: '" + lastLine + "'");
                     }
-                    } else {
+                    }
+                if ("ReadAll".equals(message)) {
+                    String lastLine = getAllFile(filePath);
+                    if (lastLine != null) {
+                        String routingKey = delivery.getProperties().getReplyTo();
+                        channel.basicPublish("", routingKey, null, lastLine.getBytes(StandardCharsets.UTF_8));
+                        System.out.println("Sent response message: '" + lastLine + "'");
+                    }
+                }
+
+                else {
                         insertLineIntoFile(filePath, message, argv);
                     }
 
@@ -129,6 +139,21 @@ public class Replica {
 
             return lastLine;
         }
+
+    public static String getAllFile(String filePath) {
+        StringBuilder fileContent = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                fileContent.append(line).append(System.lineSeparator());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileContent.toString();
+    }
 
 
     }

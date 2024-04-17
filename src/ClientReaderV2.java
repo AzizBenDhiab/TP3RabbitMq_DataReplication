@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
 import com.rabbitmq.client.*;
 
-public class ClientReader {
+public class ClientReaderV2 {
 
     private final static String EXCHANGE_NAME = "text_exchange";
 
@@ -19,7 +19,7 @@ public class ClientReader {
             String queueName = channel.queueDeclare().getQueue();
             channel.queueBind(queueName, EXCHANGE_NAME, "");
             String ReplyqueueName = channel.queueDeclare().getQueue();
-            String request = "ReadLast";
+            String request = "ReadAll";
             AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
                     .replyTo(ReplyqueueName)
                     .build();
@@ -37,7 +37,7 @@ public class ClientReader {
                 if (!responseReceived[0]) {
                     String message = new String(delivery.getBody(), "UTF-8");
                     System.out.println(" [x] Received: '" + message + "'");
-                     responseReceived[0] = true;
+                    responseReceived[0] = true;
                 }
             };
 
