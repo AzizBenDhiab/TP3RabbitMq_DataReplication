@@ -1,0 +1,4 @@
+1 document to test 3.0
+1 document to test 3.0
+3 document to test 3.0
+5 document to test 3.0
